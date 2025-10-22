@@ -26,7 +26,7 @@ class Solution {
         }
         
         
-        // if no such point exists
+        // if no such point exist
         return -1;
     }
 };
