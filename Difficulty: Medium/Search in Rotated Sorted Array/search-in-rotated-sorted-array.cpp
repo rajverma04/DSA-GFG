@@ -16,7 +16,7 @@ class Solution {
                 } else {        // if key lie in right side
                     end = mid - 1;
                 }
-            } else {    // right sorted
+            } else {    // right sorted: arr[mid] < arr[end]
                 if(arr[start] <= key || key < arr[mid]) {   
                     end = mid - 1;
                 } else {
