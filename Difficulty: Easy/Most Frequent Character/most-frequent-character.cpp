@@ -11,9 +11,13 @@ class Solution {
         int max = -1;
         int index = 0;
         for(int i = 0; i < 26; i++) {
-            if(count[i] > max) {
+            if(count[i] > max) {        
                 max = count[i];
                 index = i;
+            } else if(count[i] == max) {        // if some count is equal then print the smaller lexicographically
+                if(i < index) {
+                    index = i;
+                }
             }
         }
         
