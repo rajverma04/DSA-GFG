@@ -18,13 +18,13 @@ class Solution {
             char currentChar = arr[0][col];     // 
             for(int row = 1; row < arr.size(); row++) {
                 if(arr[row][col] != currentChar) {
-                    return arr[0].substr(0, count);
+                    return arr[0].substr(0, count);     // if early mismatch is found in array
                 }
             }
             count++;
         }
         
-        return arr[0].substr(0, count);
+        return arr[0].substr(0, count);     // if there is no mismatch
         
         
     }
