@@ -14,3 +14,38 @@
 </span><strong style="font-size: 18px;">Output</strong><span style="font-size: 18px;">: [-1, -1, -1, -1]
 </span><strong style="font-size: 18px;">Explanation</strong><span style="font-size: 18px;">: There is no next greater element for any of the elements in the array, so all are -1.</span></span></pre>
 <p><span style="font-size: 18px;"><strong>Constraints:</strong><br>1 ≤ arr.size() ≤ 10<sup>6</sup><br>0 ≤ arr[i] ≤ 10<sup>9</sup></span></p></div><p><span style=font-size:18px><strong>Company Tags : </strong><br><code>Flipkart</code>&nbsp;<code>Amazon</code>&nbsp;<code>Microsoft</code>&nbsp;<code>MakeMyTrip</code>&nbsp;<code>Adobe</code>&nbsp;<br><p><span style=font-size:18px><strong>Topic Tags : </strong><br><code>Stack</code>&nbsp;<code>Data Structures</code>&nbsp;
+
+
+
+Step-by-Step Algorithm
+Step 1: Initialize Data Structures
+
+Create an empty stack st to store indices of elements from the array. Storing indices gives us access to both the value and the position.
+
+Create a result vector ans of the same size as the input array, initialized with -1. This handles the default case where no greater element is found.
+
+Step 2: Iterate Through the Array
+
+Loop through each element in the array using its index i (from 0 to n-1).
+
+Step 3: The Core Logic - Finding the Next Greater
+
+While the stack is not empty AND the current element arr[i] is greater than the element at the index on the top of the stack (arr[st.top()]):
+
+This condition means we have found the Next Greater Element for the element at st.top().
+
+Action 1: Set ans[st.top()] = arr[i]. We assign the current element as the answer for the element at the top of the stack.
+
+Action 2: Pop that index from the stack. Its purpose is fulfilled.
+
+This while loop continues until the stack is empty or the current element is no longer greater than the element at the top-of-stack index.
+
+Step 4: Push the Current Index
+
+After resolving all possible elements for which the current element is the next greater, push the current index i onto the stack.
+
+Why? Because we now need to find the next greater element for arr[i] itself, so we add it to the "waiting" list.
+
+Step 5: Return the Result
+
+After the loop completes, return the ans vector. Any indices remaining in the stack will have their corresponding values in ans as -1, which was our initial setup.
