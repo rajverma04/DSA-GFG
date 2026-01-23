@@ -1,26 +1,24 @@
 class Solution {
   public:
     char getMaxOccuringChar(string& s) {
-        //  code here
-        int count[26] = {0};
+        vector<int> ans(26, 0);
         
-        for(int i = 0; i < s.length(); i++) {
-            int index = s[i] - 'a';
-            count[index]++;
+        for(int i = 0; i < s.size(); i++) {
+            int index = s[i] - 'a';       
+            ans[index]++;
         }
-        int max = -1;
+        
+        int maxAns = -1;
         int index = 0;
         for(int i = 0; i < 26; i++) {
-            if(count[i] > max) {        
-                max = count[i];
+            if(ans[i] > maxAns) {
+                maxAns = max(maxAns, ans[i]);
                 index = i;
-            } else if(count[i] == max) {        // if some count is equal then print the smaller lexicographically
-                if(i < index) {
-                    index = i;
-                }
             }
+            
         }
+        char ch = 'a' + index;
+        return ch;
         
-        return ('a' + index);
     }
 };
