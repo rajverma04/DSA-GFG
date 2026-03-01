@@ -2,20 +2,23 @@
 class Solution {
   public:
     // Function to count the number of ways in which frog can reach the top.
-    int countWays(int n) {
-
-        // your code here
-        if(n == 1) {
+    int find(int n, vector<int> &dp) {
+        if(n == 0) {
             return 1;
         }
-        if(n == 2) {
-            return 2;
-        }
-        if(n == 3) {
-            return 4;
+        if(n < 0)  {
+            return 0;
         }
         
-       
-        return countWays(n - 1) + countWays(n - 2) + countWays(n - 3);
+        if(dp[n] != -1) {
+            return dp[n];
+        }
+        
+        return dp[n] = find(n-1, dp) + find(n-2, dp) + find(n-3, dp);
+    }
+    int countWays(int n) {
+        vector<int> dp(n + 1, -1);
+        return find(n, dp);
+        
     }
 };
