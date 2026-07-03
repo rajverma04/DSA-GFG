@@ -16,34 +16,28 @@ public:
 class Solution {
   public:
     vector<int> leftView(Node *root) {
-        vector<int> ans;
-        if(!root) {
-            return ans;
-        }
+        // code here
         
-        queue<Node*> q;
+        queue<Node*>q;
+        vector<int>v;
+        if(!root) return v;
         q.push(root);
-        
-        while(!q.empty()) {
-            int size = q.size();
-            
-            for(int i = 0; i < size; i++) {
-                Node *temp = q.front();
+        while(!q.empty())
+        {
+            int s=q.size();
+            for(int i=0;i<s;i++)
+            {
+                auto x=q.front();
                 q.pop();
-                if(i == 0) {
-                    ans.push_back(temp->data);
-                }
-                
-                if(temp->left) {
-                    q.push(temp->left);
-                }
-                if(temp->right) {
-                    q.push(temp->right);
-                }
+                if(i==0)
+                v.push_back(x->data);
+                if(x->left)
+                q.push(x->left);
+                if(x->right)
+                q.push(x->right);
             }
+            
         }
-        
-        return ans;
-        
+        return v;
     }
 };
