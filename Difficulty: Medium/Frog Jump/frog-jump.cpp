@@ -1,27 +1,32 @@
 class Solution {
   public:
-    int cost(int n, vector<int>& height, vector<int> &dp) {
-        if(n == 0) {
+    
+    int solve(int idx, vector<int> &height, vector<int> &dp) {
+        int n = height.size();
+        if(idx == n - 1) {
             return 0;
         }
-        if(dp[n] != -1) {
-            return dp[n];
+        
+        
+        if(dp[idx] != -1) {
+            return dp[idx];
         }
         
-        int left = cost(n - 1, height, dp) + abs(height[n] - height[n - 1]);
-        int right = INT_MAX;
-        if(n > 1) {
-            right = cost(n - 2, height, dp) + abs(height[n] - height[n - 2]);
+        int oneStep = abs(height[idx] - height[idx + 1]) + solve(idx + 1, height, dp);
+        
+        int twoStep = INT_MAX;
+        
+        if(idx + 2 < n) {
+            twoStep = abs(height[idx] - height[idx + 2]) + solve(idx + 2, height, dp);
         }
         
-        return dp[n] = min(left, right);
+        return dp[idx] = min(oneStep, twoStep);
     }
-    
+  
     int minCost(vector<int>& height) {
         int n = height.size();
-        vector<int> dp(n + 1, -1);
+        vector<int> dp(n, -1);
         
-        return cost(n - 1, height, dp);
-        
+        return solve(0, height, dp);
     }
 };
