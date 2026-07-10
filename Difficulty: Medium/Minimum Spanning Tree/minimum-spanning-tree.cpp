@@ -1,49 +1,53 @@
 class Solution {
-  public:
-    int spanningTree(int V, vector<vector<int>>& edges) {
-        vector<vector<vector<int>>> adj(V);
-        for(auto &e : edges) {
-            int u = e[0];
-            int v = e[1];
-            int w = e[2];       // weight
-            
-            adj[u].push_back({v, w});
-            adj[v].push_back({u, w});
-        }
-        
-        priority_queue<     // {weight, node} : as MST not required in this so not storing parent
-            pair<int, int>,
-            vector<pair<int, int>>,
-            greater<pair<int, int>>
-            > pq;
-        vector<bool> visited(V, false);
-        pq.push({0,0});     // initial start: {weight, node}
-        int sum = 0;
-        
-        while(!pq.empty()) {
-            auto it = pq.top();
-            pq.pop();
-            
-            int node = it.second;
-            int wt = it.first;
-            
-            if(visited[node]) {     // node already visited
-                continue;
-            }
-            
-            visited[node] = true;       // not visited then mark visited
-            
-            sum += wt;
-            for(auto it : adj[node]) {
-                int adjNode = it[0];
-                int adjW = it[1];
-                
-                if(!visited[adjNode]) {
-                    pq.push({adjW, adjNode});
-                }
-            }
-        }
-        
-        return sum;
-    }
+	public:
+	vector<int> parent, size;
+	int find(int node) {
+		if (parent[node] == node) {
+			return node;
+		}
+		
+		return parent[node] = find(parent[node]);
+	}
+	bool unionSet(int u, int v) {
+		int pu = find(u), pv = find(v);
+		
+		if (pu == pv) {
+			return false;
+		}
+		if (size[pu] < size[pv]) {
+			parent[pu] = pv;
+			size[pv] += size[pu];
+		} else {
+			parent[pv] = pu;
+			size[pu] += size[pv];
+		}
+		
+		return true;
+		
+	}
+	
+	int spanningTree(int V, vector<vector<int>> & edges) {
+		parent.resize(V);
+		size.resize(V, 1);
+		
+		for (int i = 0; i < V; i++) {
+			parent[i] = i;
+		}
+		sort(edges.begin(), edges.end(),
+		[](const vector<int>& a, const vector<int>& b) {
+			return a[2] < b[2];
+		});
+		
+		int mstWeight = 0;
+		
+		for (auto e : edges) {
+			int u = e[0], v = e[1];
+			
+			if (unionSet(u, v)) {
+				mstWeight += e[2];
+			}
+		}
+		
+		return mstWeight;
+	}
 };
