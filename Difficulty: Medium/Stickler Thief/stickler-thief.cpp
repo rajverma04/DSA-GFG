@@ -15,9 +15,21 @@ class Solution {
     
     int findMaxSum(vector<int>& arr) {
         int n = arr.size();
-        dp.assign(n + 1, -1);
+        dp.assign(n + 1, 0);
         
-        return solve(0, n, arr);
+        // return solve(0, n, arr);
+        
+        dp[0] = arr[0];
+        dp[1] = max(arr[0], arr[1]);
+        
+        for(int i = 2; i < n; i++) {
+            int pick = arr[i] + dp[i - 2];
+            int notPick = dp[i - 1];
+            
+            dp[i] = max(pick, notPick);
+        }
+        
+        return dp[n - 1];
         
     }
 };
