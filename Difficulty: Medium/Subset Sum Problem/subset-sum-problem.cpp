@@ -1,29 +1,28 @@
 class Solution {
   public:
-    bool fun(int index, vector<int> &arr, int sum, vector<vector<int>> &dp) {
+    vector<vector<int>> dp;
+    
+    bool solve(int i, vector<int>& arr, int sum) {
         if(sum == 0) {
             return true;
         }
-        
-        if(index == 0) {
-            return (arr[0] == sum);
+        if(i == 0) {
+            return arr[0] == sum;
         }
-        if(dp[index][sum] != -1) {
-            return dp[index][sum];
+        if(dp[i][sum] != -1) {
+            return dp[i][sum];
         }
-        
-        bool notTake = fun(index - 1, arr, sum, dp);
+        bool notTake = solve(i - 1, arr, sum);
         bool take = false;
-        if(arr[index] <= sum) {
-            take = fun(index - 1, arr, sum - arr[index], dp);
+        if(sum >= arr[i]) {
+            take = solve(i - 1, arr, sum - arr[i]);
         }
-        
-        return dp[index][sum] = take || notTake;
+        return dp[i][sum] = take || notTake;
     }
-    
     bool isSubsetSum(vector<int>& arr, int sum) {
         int n = arr.size();
-        vector<vector<int>> dp(n, vector<int>(sum + 1, -1));
-        return fun(n - 1, arr, sum, dp);
+        dp.assign(n, vector<int> (sum + 1, -1));
+        
+        return solve(n - 1, arr, sum);
     }
 };
