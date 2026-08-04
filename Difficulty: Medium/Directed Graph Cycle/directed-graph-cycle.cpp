@@ -1,43 +1,37 @@
 class Solution {
   public:
-    bool DFS(vector<vector<int>> &adj, vector<bool> &visited, vector<bool> &path, int node) {
-        visited[node] = true;
-        path[node] = true;
-        
-        for(int i = 0; i < adj[node].size(); i++) {
-            if(!visited[adj[node][i]]) {     // adjacent node is not visited
-                if(DFS(adj, visited, path, adj[node][i])) {
-                    return true;
-                }
-            } else if(path[adj[node][i]]) {        // cycle present   // adjacent node is already visited
-                return true;
-            }
-        }
-        
-        
-        // if there is no cycle present in that route
-        path[node] = false;     // backtrack
-        return false;
-    }
-    
     bool isCyclic(int V, vector<vector<int>> &edges) {
-        vector<bool> visited(V, false);
-        vector<bool> path(V, false);
-        
         vector<vector<int>> adj(V);
-        for (auto &e : edges) {
+        for(auto e : edges) {
             adj[e[0]].push_back(e[1]);
         }
+        vector<int> inDeg(V);
+        for(int i = 0; i < V; i++) {
+            for(auto it : adj[i]) {
+                inDeg[it]++;
+            }
+        }
+        queue<int> q;
         
         for(int i = 0; i < V; i++) {
-            if(!visited[i]) {
-                if(DFS(adj, visited, path, i)) {      // i : node
-                    return true;
+            if(inDeg[i] == 0) {
+                q.push(i);
+            }
+        }
+        vector<int> ans;
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+            
+            for(auto nbr : adj[node]) {
+                inDeg[nbr]--;
+                if(inDeg[nbr] == 0) {
+                    q.push(nbr);
                 }
             }
         }
         
-        
-        return false;
+        return ans.size() != V;
     }
 };
