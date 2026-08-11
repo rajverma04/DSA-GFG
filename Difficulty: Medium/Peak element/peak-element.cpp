@@ -1,40 +1,20 @@
 class Solution {
   public:
-    int peakElement(vector<int> &arr) {
-        // code here
-        // if(arr.size() == 1) {
-        //     return 0;
-        // }
-        // for(int i = 1; i < arr.size() - 1; i++) {
-        //     if(i == arr.size()) {
-        //         break;
-        //     }
-        //     if(arr[i - 1] < arr[i] && arr[i] > arr[i + 1]) {
-        //         return i;
-        //     } 
-        // }
-        // return 0;
-        
-        
-         int n = arr.size();
-        
-        // Handle edge cases
-        if (n == 1) return 0;
-        
-        // Check first element
-        if (arr[0] >= arr[1]) return 0;
-        
-        // Check middle elements - FIXED: i < n-1 to avoid index out of bounds
-        for (int i = 1; i < n - 1; i++) {
-            if (arr[i] >= arr[i - 1] && arr[i] >= arr[i + 1]) {
-                return i;
+    int peakElement(vector<int> &nums) {
+        int start = 0, mid, end = nums.size() - 1;
+
+        while(start < end) {
+            mid = start + (end - start) / 2;
+
+            if(nums[mid] > nums[mid + 1]) {     // if mid element is peak
+                end = mid;      // peak in left half
+            } else {
+                start = mid + 1;    // peak in right half
             }
+
         }
+
+        return start;
         
-        // Check last element
-        if (arr[n - 1] >= arr[n - 2]) return n - 1;
-        
-        return 0;
-    
     }
 };
